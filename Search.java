@@ -5,7 +5,6 @@
 
 import java.io.*;
 import java.util.*;
-import java.text.*;
 
 public class Search {
 
@@ -93,11 +92,8 @@ public class Search {
 	//	the appropriate class file (extending FitnessFunction.java) and add
 	//	an else_if block below to instantiate the problem.
  
-		if (Parameters.problemType.equals("NM")){
-				problem = new NumberMatch();
-		}
-		else if (Parameters.problemType.equals("OM")){
-				problem = new OneMax();
+		if (Parameters.problemType.equals("RR")){
+				problem = new RoyalRoad();
 		}
 		else System.out.println("Invalid Problem Type");
 

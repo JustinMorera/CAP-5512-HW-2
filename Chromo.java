@@ -3,10 +3,6 @@
 *  Version 2, January 18, 2004
 *******************************************************************************/
 
-import java.io.*;
-import java.util.*;
-import java.text.*;
-
 public class Chromo
 {
 /*******************************************************************************
@@ -132,7 +128,7 @@ public class Chromo
 
 		double rWheel = 0;
 		int j = 0;
-		int k = 0;
+		// int k = 0;
 
 		switch (Parameters.selectType){
 
@@ -162,7 +158,7 @@ public class Chromo
 	public static void mateParents(int pnum1, int pnum2, Chromo parent1, Chromo parent2, Chromo child1, Chromo child2){
 
 		int xoverPoint1;
-		int xoverPoint2;
+		// int xoverPoint2;
 
 		switch (Parameters.xoverType){
 

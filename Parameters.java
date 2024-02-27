@@ -4,8 +4,6 @@
 *******************************************************************************/
 
 import java.io.*;
-import java.util.*;
-import java.text.*;
 
 public class Parameters
 {
@@ -16,6 +14,8 @@ public class Parameters
 
 	public static String expID;
 	public static String problemType;
+	public static String variant;
+	public static int reward;
 
 	public static String dataInputFileName;
 
@@ -45,11 +45,12 @@ public class Parameters
 
 	public Parameters(String parmfilename) throws java.io.IOException{
 
-		String readLine;
 		BufferedReader parmInput = new BufferedReader(new FileReader (parmfilename));
 
 		expID = parmInput.readLine().substring(30);
 		problemType = parmInput.readLine().substring(30);
+		variant = parmInput.readLine().substring(30);
+		reward = Integer.parseInt(parmInput.readLine().substring(30).trim());
 
 		dataInputFileName = parmInput.readLine().substring(30);
 
@@ -90,6 +91,8 @@ public class Parameters
 
 		output.write("Experiment ID                :  " + expID + "\n");
 		output.write("Problem Type                 :  " + problemType + "\n");
+		output.write("Variant                      :  " + variant + "\n");
+		output.write("Reward                       :  " + reward + "\n");
 
 		output.write("Data Input File Name         :  " + dataInputFileName + "\n");
 

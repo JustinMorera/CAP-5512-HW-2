@@ -1,9 +1,11 @@
-Experiment ID                :onemax
-Problem Type                 :OM
+Experiment ID                :royalroad
+Problem Type                 :RR
+Variant	(9)					 :RR1
+Reward (10)						 :8
 Data Input File Name         :NA
 Number of Runs               :10
 Generations per Run          :200
-Population Size              :100
+Population Size              :128
 Selection Method (1)         :1
 Fitness Scaling Type (2)     :0
 Crossover Type (3)           :1
@@ -11,8 +13,8 @@ Crossover Rate (4)           :0.8
 Mutation Type (5)            :1
 Mutation Rate (6)            :0.005
 Random Number Seed           :75982
-Number of Genes/Points (7)   :1
-Size of Genes (18)           :100
+Number of Genes/Points (7)   :8
+Size of Genes (8)           :8
 
 Notes:
 
@@ -39,3 +41,10 @@ Notes:
 
 8)	Determines number of bits in each gene.  Number of Genes times Size
 	gives the number of bits in each chromosome.
+
+9) Variants		R1 = Royal Road 1
+				R2 = Royal Road 2
+				R1F = Royal Road 1 Flat* *Possibly a defunct function?
+				R2F = Royal Road 2 Flat
+
+10) Reward determines value of each block
