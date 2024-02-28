@@ -1,7 +1,7 @@
 Experiment ID                :royalroad
 Problem Type                 :RR
-Variant	(9)					 :RR1
-Reward (10)						 :8
+Variant	(9)                  :RR1
+Reward (10)                  :8
 Data Input File Name         :NA
 Number of Runs               :10
 Generations per Run          :200
