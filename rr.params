@@ -29,7 +29,8 @@ Notes:
 
 3)  Crossover Type Codes    1 = Single Point Crossover
 							2 = Two Point Crossover
-							3 = Uniform Crossover
+							3 = Adaptive Crossover 1: lower rate per block based on proportion of completeness
+							4 = Adaptive Crossover 2: lower rate per block per consecutive completeness
 
 4)  Crossover Rates from 0 to 1, Use "0" to turn off crossover
 

@@ -158,7 +158,7 @@ public class Chromo
 	public static void mateParents(int pnum1, int pnum2, Chromo parent1, Chromo parent2, Chromo child1, Chromo child2){
 
 		int xoverPoint1;
-		// int xoverPoint2;
+		int xoverPoint2;
 
 		switch (Parameters.xoverType){
 
@@ -173,8 +173,68 @@ public class Chromo
 			break;
 
 		case 2:     //  Two Point Crossover
+			//  Select crossover point
+			xoverPoint1 = 1 + (int)(Search.r.nextDouble() * (Parameters.numGenes * Parameters.geneSize-1));
+			xoverPoint2 = 1 + (int)(Search.r.nextDouble() * (Parameters.numGenes * Parameters.geneSize-1));
 
-		case 3:     //  Uniform Crossover
+			//  Create child chromosome from parental material
+			if ( xoverPoint2 < xoverPoint1)
+			{
+				int temp = xoverPoint1;
+				xoverPoint1 = xoverPoint2;
+				xoverPoint2 = temp;
+			}
+			child1.chromo = parent1.chromo.substring(0,xoverPoint1) + parent2.chromo.substring(xoverPoint1, xoverPoint2) + parent1.chromo.substring(xoverPoint2);
+			child2.chromo = parent2.chromo.substring(0,xoverPoint1) + parent1.chromo.substring(xoverPoint1, xoverPoint2) + parent2.chromo.substring(xoverPoint2);
+			break;
+
+		case 3:     //  Adaptive Crossover 1: Lower rate per block based on proportion of completeness
+			double[] probabilities = new double[Parameters.numGenes];
+			double cumulativeProbability = 0;
+			double totalProbabilities = 0;
+
+			// Make sure parent1 is most fit
+			if (parent1.rawFitness < parent2.rawFitness)
+			{
+				Chromo temp = parent1;
+				parent1 = parent2;
+				parent2 = temp;
+			}
+
+			// Modify crossover chance for each bit in block one based on that block's fitness
+			for (int i = 0; i < Parameters.numGenes; i++)
+			{
+				String block = parent1.chromo.substring(i * Parameters.geneSize, i * Parameters.geneSize + Parameters.geneSize);
+				int count = 0;
+				for (int j = 0; j < Parameters.geneSize; i++) {
+					if (block.charAt(i) == '1') {
+						count++;
+					}
+				}
+				probabilities[i] = Parameters.xoverRate * (Parameters.xoverRate - count / Parameters.geneSize);
+			}
+
+			for (double p : probabilities) {
+				totalProbabilities += p;
+			}
+
+			double randomNum = Search.r.nextDouble() * totalProbabilities;
+
+			// Choose block proportionately, then choose random bit in that block
+			for (int i = 0; i < Parameters.numGenes; i++) {
+				cumulativeProbability += probabilities[i];
+				if (cumulativeProbability >= randomNum) {
+					xoverPoint1 = i * Parameters.numGenes + (int)(Search.r.nextDouble()) * Parameters.geneSize;
+					// Then perform 1-point Crossover
+					child1.chromo = parent1.chromo.substring(0,xoverPoint1) + parent2.chromo.substring(xoverPoint1);
+					child2.chromo = parent2.chromo.substring(0,xoverPoint1) + parent1.chromo.substring(xoverPoint1);
+					break;	
+				}
+			}
+
+			// Adaptive2: lower rate per block per consecutive 1's; 11110011, the first 4 1's will have .5 the chance of being split, and the last 2 1's will have .25 the chance
+			// Adaptive Mutation: higher chance of mutation for bits in a block based on how complete the block is; 1110111, will have 7x mutation rate of 00000100; do we make 11111111 impossible to mutate?
+			break;
 
 		default:
 			System.out.println("ERROR - Bad crossover method selected");
