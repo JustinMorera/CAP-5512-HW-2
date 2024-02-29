@@ -140,17 +140,42 @@ public class Chromo
 			}
 			break;
 
-		case 3:     // Random Selection
+		case 2:     //  Tournament Selection
+            int tournamentSize = Parameters.tournamentSize;
+            
+            if (tournamentSize <= 0) {
+                System.out.println("Error: Invalid tournament size");
+            }
+
+            int[] chosenIndices = new int[tournamentSize];
+
+            // Randomly select individuals for the tournament
+            for (int i = 0; i < tournamentSize; i++) {
+                int randomIndex = (int) (Search.r.nextDouble() * Parameters.popSize);
+                chosenIndices[i] = randomIndex;
+            }
+
+            // Find the fittest individual from the chosen ones
+            j = chosenIndices[0];
+            for (int i = 1; i < tournamentSize; i++) {
+                if (Search.member[chosenIndices[i]].rawFitness > Search.member[j].rawFitness) {
+                    j = chosenIndices[i];
+                }
+            }
+
+            return j;
+
+        case 3:     // Random Selection
 			randnum = Search.r.nextDouble();
 			j = (int) (randnum * Parameters.popSize);
 			return(j);
 
-		case 2:     //  Tournament Selection
-
 		default:
 			System.out.println("ERROR - No selection method selected");
 		}
+
 	return(-1);
+
 	}
 
 	//  Produce a new child from two parents  **********************************
