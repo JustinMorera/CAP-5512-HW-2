@@ -206,8 +206,8 @@ public class Chromo
 			{
 				String block = parent1.chromo.substring(i * Parameters.geneSize, i * Parameters.geneSize + Parameters.geneSize);
 				int count = 0;
-				for (int j = 0; j < Parameters.geneSize; i++) {
-					if (block.charAt(i) == '1') {
+				for (int j = 0; j < Parameters.geneSize; j++) {
+					if (block.charAt(j) == '1') {
 						count++;
 					}
 				}
