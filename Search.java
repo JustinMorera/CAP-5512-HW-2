@@ -50,6 +50,7 @@ public class Search {
 	private static double memberFitness[];
 	private static int TmemberIndex;
 	private static double TmemberFitness;
+	private static int buildingBlocks[][]; // Tracks prevalence of each block
 
 	private static double fitnessStats[][];  // 0=Avg, 1=Best
 
@@ -108,6 +109,14 @@ public class Search {
 		bestOfGenChromo = new Chromo();
 		bestOfRunChromo = new Chromo();
 		bestOverAllChromo = new Chromo();
+		int n = (int)(Math.log10(Parameters.numGenes) / Math.log10(2)) - 1; // Maximum order of blocks
+		int m; // Support variable for tracking block order
+		buildingBlocks = new int[n + 1][]; // Each row will store an int representing the number of each block of order-0, order-1, order-2, etc. present in the population
+		for (int i = 0; i < n + 1; i++)
+		{
+			buildingBlocks[i] = new int[(int)(Parameters.numGenes / Math.pow(2, i))];
+		}
+
 
 		if (Parameters.minORmax.equals("max")){
 			defaultBest = 0;
@@ -122,7 +131,10 @@ public class Search {
 
 		//  Start program for multiple runs
 		for (R = 1; R <= Parameters.numRuns; R++){
-
+			for (int i = 0; i < n + 1; i++)
+			{
+				Arrays.fill(buildingBlocks[i], 0);
+			}
 			bestOfRunChromo.rawFitness = defaultBest;
 			System.out.println();
 
@@ -300,10 +312,19 @@ public class Search {
 		// *********************************************************************
 		// ****** PROPORTIONALIZE SCALED FITNESS FOR EACH MEMBER AND SUM *******
 		// *********************************************************************
-
 				for (int i=0; i<Parameters.popSize; i++){
 					member[i].proFitness = member[i].sclFitness/sumSclFitness;
 					sumProFitness = sumProFitness + member[i].proFitness;
+					// Track presence/dominance of building blocks
+					for (int z = 0; z < Parameters.numGenes; z++){
+						for (int j = n; j >= 0; j--) // Same loop as in fitness function
+						{
+							m = (int)Math.pow(2, j);
+							if ((1 + z) % m == 0)
+								if (!(member[i].chromo.substring((z - (m - 1)) * Parameters.geneSize, z * Parameters.geneSize + Parameters.geneSize).contains("0")))
+									buildingBlocks[j][z / m] += 1;
+						}
+					}
 				}
 
 		// *********************************************************************
@@ -352,7 +373,8 @@ public class Search {
 			problem.doPrintGenes(bestOfRunChromo, summaryOutput);
 
 			System.out.println(R + "\t" + "B" + "\t"+ (int)bestOfRunChromo.rawFitness);
-
+			System.out.println("\t" + "Building Blocks: \n");
+			System.out.println(buildingBlocks);
 		} //End of a Run
 
 		Hwrite.left("B", 8, summaryOutput);
