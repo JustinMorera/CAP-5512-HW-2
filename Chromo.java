@@ -232,6 +232,7 @@ public class Chromo
 				}
 			}
 
+			// Unused ideas:
 			// Adaptive2: lower rate per block per consecutive 1's; 11110011, the first 4 1's will have .5 the chance of being split, and the last 2 1's will have .25 the chance
 			// Adaptive Mutation: higher chance of mutation for bits in a block based on how complete the block is; 1110111, will have 7x mutation rate of 00000100; do we make 11111111 impossible to mutate?
 			break;
