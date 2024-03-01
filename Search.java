@@ -153,6 +153,17 @@ public class Search {
 				sumRawFitness2 = 0;
 				bestOfGenChromo.rawFitness = defaultBest;
 
+				System.out.println("\t" + "Building Blocks: \n");
+				summaryOutput.write(" Building Blocks: ");
+				for (int i = 0; i < buildingBlocks.length; i++) {
+					for (int j = 0; j < buildingBlocks[i].length; j++) {
+						System.out.print(buildingBlocks[i][j] + " ");
+						Hwrite.right(buildingBlocks[i][j], 5, summaryOutput);
+						buildingBlocks[i][j] = 0;
+					}
+					System.out.println();
+				}
+
 				//	Test Fitness of Each Member
 				for (int i=0; i<Parameters.popSize; i++){
 
@@ -373,13 +384,6 @@ public class Search {
 			problem.doPrintGenes(bestOfRunChromo, summaryOutput);
 
 			System.out.println(R + "\t" + "B" + "\t"+ (int)bestOfRunChromo.rawFitness);
-			System.out.println("\t" + "Building Blocks: \n");
-			for (int i = 0; i < buildingBlocks.length; i++) {
-				for (int j = 0; j < buildingBlocks[i].length; j++) {
-					System.out.print(buildingBlocks[i][j] + " ");
-				}
-				System.out.println();
-			}
 		} //End of a Run
 
 		Hwrite.left("B", 8, summaryOutput);
