@@ -374,7 +374,12 @@ public class Search {
 
 			System.out.println(R + "\t" + "B" + "\t"+ (int)bestOfRunChromo.rawFitness);
 			System.out.println("\t" + "Building Blocks: \n");
-			System.out.println(buildingBlocks);
+			for (int i = 0; i < buildingBlocks.length; i++) {
+				for (int j = 0; j < buildingBlocks[i].length; j++) {
+					System.out.print(buildingBlocks[i][j] + " ");
+				}
+				System.out.println();
+			}
 		} //End of a Run
 
 		Hwrite.left("B", 8, summaryOutput);
