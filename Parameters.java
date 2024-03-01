@@ -1,3 +1,4 @@
+
 /******************************************************************************
 *  A Teaching GA					  Developed by Hal Stringer & Annie Wu, UCF
 *  Version 2, January 18, 2004
@@ -5,12 +6,11 @@
 
 import java.io.*;
 
-public class Parameters
-{
+public class Parameters {
 
-/*******************************************************************************
-*                            INSTANCE VARIABLES                                *
-*******************************************************************************/
+	/*******************************************************************************
+	 * INSTANCE VARIABLES *
+	 *******************************************************************************/
 
 	public static String expID;
 	public static String problemType;
@@ -28,6 +28,7 @@ public class Parameters
 
 	public static String minORmax;
 	public static int selectType;
+	public static int tournamentSize;
 	public static int scaleType;
 
 	public static int xoverType;
@@ -39,13 +40,13 @@ public class Parameters
 	public static int numGenes;
 	public static int geneSize;
 
-/*******************************************************************************
-*                              CONSTRUCTORS                                    *
-*******************************************************************************/
+	/*******************************************************************************
+	 * CONSTRUCTORS *
+	 *******************************************************************************/
 
-	public Parameters(String parmfilename) throws java.io.IOException{
+	public Parameters(String parmfilename) throws java.io.IOException {
 
-		BufferedReader parmInput = new BufferedReader(new FileReader (parmfilename));
+		BufferedReader parmInput = new BufferedReader(new FileReader(parmfilename));
 
 		expID = parmInput.readLine().substring(30);
 		problemType = parmInput.readLine().substring(30);
@@ -59,6 +60,7 @@ public class Parameters
 		popSize = Integer.parseInt(parmInput.readLine().substring(30).trim());
 
 		selectType = Integer.parseInt(parmInput.readLine().substring(30).trim());
+		tournamentSize = Integer.parseInt(parmInput.readLine().substring(30).trim());
 		scaleType = Integer.parseInt(parmInput.readLine().substring(30).trim());
 
 		xoverType = Integer.parseInt(parmInput.readLine().substring(30).trim());
@@ -72,22 +74,22 @@ public class Parameters
 
 		parmInput.close();
 
-		if (scaleType==0 || scaleType==2) minORmax = "max";
-		else minORmax = "min";
+		if (scaleType == 0 || scaleType == 2)
+			minORmax = "max";
+		else
+			minORmax = "min";
 
 	}
 
-/*******************************************************************************
-*                                MEMBER METHODS                                *
-*******************************************************************************/
+	/*******************************************************************************
+	 * MEMBER METHODS *
+	 *******************************************************************************/
 
+	/*******************************************************************************
+	 * STATIC METHODS *
+	 *******************************************************************************/
 
-/*******************************************************************************
-*                             STATIC METHODS                                   *
-*******************************************************************************/
-
-	public static void outputParameters(FileWriter output) throws java.io.IOException{
-
+	public static void outputParameters(FileWriter output) throws java.io.IOException {
 
 		output.write("Experiment ID                :  " + expID + "\n");
 		output.write("Problem Type                 :  " + problemType + "\n");
@@ -101,6 +103,8 @@ public class Parameters
 		output.write("Population Size              :  " + popSize + "\n");
 
 		output.write("Selection Method             :  " + selectType + "\n");
+		output.write("Tournament Size              :  " + tournamentSize + "\n");
+
 		output.write("Fitness Scaling Type         :  " + scaleType + "\n");
 		output.write("Min or Max Fitness           :  " + minORmax + "\n");
 
@@ -116,4 +120,4 @@ public class Parameters
 		output.write("\n\n");
 
 	}
-}   // End of Parameters.java **************************************************
+} // End of Parameters.java **************************************************
