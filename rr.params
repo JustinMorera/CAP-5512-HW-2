@@ -1,6 +1,6 @@
 Experiment ID                :royalroad
 Problem Type                 :RR
-Variant	(9)                  :RR1
+Variant	(9)                  :R1
 Reward (10)                  :8
 Data Input File Name         :NA
 Number of Runs               :10
@@ -14,7 +14,7 @@ Mutation Type (5)            :1
 Mutation Rate (6)            :0.005
 Random Number Seed           :75982
 Number of Genes/Points (7)   :8
-Size of Genes (8)           :8
+Size of Genes (8)            :8
 
 Notes:
 
