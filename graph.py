@@ -9,7 +9,7 @@ plt.errorbar(data['Generation'], data['AverageFitness'], yerr=data['StdDev'], fm
 
 plt.xlabel('Generation')
 plt.ylabel('Fitness')
-plt.title('Average Average Over Generations')
+plt.title('Average Average Fitness Vs. Generations')
 plt.legend()
 plt.grid(True)
 
