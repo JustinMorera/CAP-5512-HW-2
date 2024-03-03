@@ -57,6 +57,30 @@ public class RoyalRoad extends FitnessFunction{
 					}
 				}
 				break;
+            case "R2Fat": // Royal Road 2 counts every building block as a fitness-boosting schema but increasing the boost exponentially based on its order
+				// Checks each gene for completeness, then adds the reward if it is complete
+				for (int z = 0; z < Parameters.numGenes; z++){
+					for (int i = n; i >= 0; i--) // Also checks each order the gene belongs in, so every 2^i genes count for multiple levels of fitness
+					{
+						m = (int)Math.pow(2, i);
+						if ((1 + z) % m == 0)
+							if (!(X.chromo.substring((z - (m - 1)) * Parameters.geneSize, z * Parameters.geneSize + Parameters.geneSize).contains("0")))
+								X.rawFitness += Parameters.reward * Math.pow(m, 2);
+					}
+				}
+				break;
+            case "R2Lean": // Royal Road 2 counts every building block as a fitness-boosting schema but increasing the boost exponentially based on its order
+				// Checks each gene for completeness, then adds the reward if it is complete
+				for (int z = 0; z < Parameters.numGenes; z++){
+					for (int i = n; i >= 0; i--) // Also checks each order the gene belongs in, so every 2^i genes count for multiple levels of fitness
+					{
+						m = (int)Math.pow(2, i);
+						if ((1 + z) % m == 0)
+							if (!(X.chromo.substring((z - (m - 1)) * Parameters.geneSize, z * Parameters.geneSize + Parameters.geneSize).contains("0")))
+								X.rawFitness += Parameters.reward / m;
+					}
+				}
+				break;
 			// case "R1F":
 			// 	for (int z = 0; z < Parameters.numGenes; z++){
 			// 		if (!(X.chromo.substring(z * Parameters.geneSize, z * Parameters.geneSize + Parameters.geneSize).contains("0")))
