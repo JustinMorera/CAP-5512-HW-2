@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-def plot_selected_building_blocks(orders_blocks_dict):
+def plot_selected_building_blocks(orders_blocks_dict, title="", filename=""):
     plt.figure(figsize=(12, 8))
 
     for order, blocks in orders_blocks_dict.items():
@@ -14,10 +14,10 @@ def plot_selected_building_blocks(orders_blocks_dict):
 
     plt.xlabel('Generation')
     plt.ylabel('Density')
-    plt.title('Evolution of schemas')
+    plt.title(f'Evolution of schemas{title}')
     plt.legend()
     plt.grid(True)
-    plt.savefig(f"EvolutionofSchemas.png")
+    plt.savefig(f"EvolutionofSchemas{filename}.png")
 
 # This version of the function will split the graph into two subplots.
 def plot_selected_building_blocks_(orders_blocks_dict, title, filename):
@@ -29,10 +29,14 @@ def plot_selected_building_blocks_(orders_blocks_dict, title, filename):
         for block in blocks:
             block_column_name = f'Block_{block}'
             if block_column_name in data.columns:
-                plt.plot()
+                # If this graph is too tiny baby-like, don't split it into two subplots
+                if (max(data[block_column_name]) < 50):
+                    plot_selected_building_blocks(orders_blocks_dict, f' in {title}', f"_{filename}")
+                    return
+                    
                 # Plot the lower range data on the first subplot
                 ax1.plot(data['Generation'], data[block_column_name], label=f'Order {order}, Block {block}')
-                ax1.set_ylim(90, max(data[block_column_name]+20))  # Set the limits of y-axis from 100 to max(y)
+                ax1.set_ylim(max(data[block_column_name])-30, max(data[block_column_name])+20)  # Set the limits of y-axis from 100 to max(y)
 
                 # Plot the upper range data on the second subplot
                 ax2.plot(data['Generation'], data[block_column_name], label=f'Order {order}, Block {block}')
