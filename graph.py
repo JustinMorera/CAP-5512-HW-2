@@ -13,5 +13,5 @@ plt.title('Average Average Fitness Vs. Generations')
 plt.legend()
 plt.grid(True)
 
-plt.show()
+plt.savefig("AvgAvgFitnessVsGenerations.png")
 
