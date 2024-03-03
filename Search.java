@@ -54,6 +54,11 @@ public class Search {
 
 	private static double fitnessStats[][];  // 0=Avg, 1=Best
 
+    public static double[] cumulativeAvgFitness;
+    public static double[] cumulativeStdevFitness;
+    public static int runsCompleted = 0;
+
+
 /*******************************************************************************
 *                              CONSTRUCTORS                                    *
 *******************************************************************************/
@@ -88,6 +93,11 @@ public class Search {
 			fitnessStats[0][i] = 0;
 			fitnessStats[1][i] = 0;
 		}
+
+        cumulativeAvgFitness = new double[Parameters.generations];
+        cumulativeStdevFitness = new double[Parameters.generations];
+        Arrays.fill(cumulativeAvgFitness, 0);
+        Arrays.fill(cumulativeStdevFitness, 0);
 
 	//	Problem Specific Setup - For new new fitness function problems, create
 	//	the appropriate class file (extending FitnessFunction.java) and add
@@ -238,6 +248,9 @@ public class Search {
 				Hwrite.right(stdevRawFitness, 11, 3, summaryOutput);
 				summaryOutput.write("\n");
 
+                cumulativeAvgFitness[G] += averageRawFitness;
+                cumulativeStdevFitness[G] += stdevRawFitness;
+
 
 		// *********************************************************************
 		// **************** SCALE FITNESS OF EACH MEMBER AND SUM ***************
@@ -376,7 +389,30 @@ public class Search {
 					Chromo.copyB2A(member[i], child[i]);
 				}
 
-			} //  Repeat the above loop for each generation
+
+                for (int order = 0; order <= n; order++) {
+                    FileWriter csvWriter = new FileWriter("buildingBlocks_order_" + order + ".csv", true);
+                    PrintWriter out = new PrintWriter(csvWriter);
+                
+                    File file = new File("buildingBlocks_order_" + order + ".csv");
+                    if (file.length() == 0) {
+                        out.print("Generation");
+                        for (int block = 0; block < buildingBlocks[order].length; block++) {
+                            out.print(",Block_" + block);
+                        }
+                        out.println();
+                    }
+        
+                    out.print(G);
+                    for (int density : buildingBlocks[order]) {
+                        out.print("," + density);
+                    }
+                    out.println();
+        
+                    out.close();
+                }
+		
+        	} //  Repeat the above loop for each generation
 
 			Hwrite.left(bestOfRunR, 4, summaryOutput);
 			Hwrite.right(bestOfRunG, 4, summaryOutput);
@@ -384,7 +420,10 @@ public class Search {
 			problem.doPrintGenes(bestOfRunChromo, summaryOutput);
 
 			System.out.println(R + "\t" + "B" + "\t"+ (int)bestOfRunChromo.rawFitness);
+
 		} //End of a Run
+
+        writeAveragesToCSV();
 
 		Hwrite.left("B", 8, summaryOutput);
 
@@ -409,6 +448,26 @@ public class Search {
 		System.out.println("End  :  " + endTime);
 
 	} // End of Main Class
+
+    public static void writeAveragesToCSV() throws IOException {
+        for (int i = 0; i < Parameters.generations; i++) {
+            cumulativeAvgFitness[i] /= Parameters.numRuns;
+            cumulativeStdevFitness[i] /= Parameters.numRuns;
+        }
+
+        String fileName = "graph_data.csv";
+        FileWriter csvWriter = new FileWriter(fileName);
+        PrintWriter out = new PrintWriter(csvWriter);
+    
+        out.println("Generation,AverageFitness,StdDev");
+    
+        for (int i = 0; i < Parameters.generations; i++) {
+            out.printf("%d,%.2f,%.2f%n", i, cumulativeAvgFitness[i], cumulativeStdevFitness[i]);
+        }
+        
+        out.close();
+    }
+
 
 }   // End of Search.Java ******************************************************
 
